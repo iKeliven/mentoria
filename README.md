@@ -1,6 +1,6 @@
 # MentorIA
 
-Plataforma educacional de programacao com Inteligencia Artificial. O usuario cria trilhas de estudo personalizadas, gera aulas, questionarios e conversa com um mentor virtual — tudo impulsionado por IA (Groq ou Google Gemini).
+Plataforma educacional de programacao com Inteligencia Artificial. O usuario cria trilhas de estudo personalizadas, gera aulas, questionarios e conversa com um mentor virtual — tudo impulsionado por IA ( Google Gemini).
 
 ---
 
@@ -35,7 +35,7 @@ Plataforma educacional de programacao com Inteligencia Artificial. O usuario cri
 - Listar e excluir aulas
 
 ### 4. Questionarios
-- Gerar questionarios automaticos com 10 questoes de multipla escolha
+- Gerar questionarios automaticos com 20 questoes de multipla escolha
 - Responder questionarios com feedback imediato
 - A IA valida se a area da trilha e sobre programacao antes de gerar
 - Registro de respostas e nivel de dificuldade
@@ -58,9 +58,8 @@ Plataforma educacional de programacao com Inteligencia Artificial. O usuario cri
 - Graficos de desempenho
 
 ### 8. Configuracao da IA
-- Escolher entre Groq e Google Gemini como provedor
+- Utilize Google Gemini como provedor
 - Inserir propria API key (gratuita)
-- Selecionar modelo especifico
 - Testar conexao antes de salvar
 - Configuracao salva no navegador e enviada em cada requisicao
 
@@ -100,8 +99,7 @@ DB_PASSWORD=sua_senha
 JWT_SECRET=sua_chave_secreta
 
 # API Key padrao (fallback caso o usuario nao configure a propria)
-GROQ_API_KEY=sua_chave_groq_aqui
-GEMINI_API_KEY=sua_chave_gemini_aqui
+API_KEY=sua_chave_gemini_aqui
 ```
 
 Inicie o servidor:
@@ -169,7 +167,7 @@ Cadastro/Login
 ### Passo a passo:
 
 1. **Cadastrar** uma conta no sistema
-2. **Configurar a IA** em Config. IA — escolher Groq ou Gemini, colar sua API key (gratuita) e selecionar um modelo
+2. **Configurar a IA** em Config. IA — escolher  ou Gemini, colar sua API key (gratuita) e selecionar um modelo
 3. **Criar uma trilha** em Minhas Trilhas — informar nome, area, nivel e descricao (deve ser sobre programacao/tech)
 4. A IA **gera o conteudo** automaticamente e aulas sao criadas na pagina Inicio
 5. **Estudar** as aulas, responder questionarios gerados pela IA
@@ -180,14 +178,6 @@ Cadastro/Login
 
 ## Modelos de IA Disponiveis (Gratuitos)
 
-### Groq
-| Modelo | Descricao |
-|--------|-----------|
-| `llama-3.3-70b-versatile` | Modelo principal, mais completo |
-| `llama-3.1-8b-instant` | Rapido e leve |
-| `gemma2-9b-it` | Google Gemma |
-| `mixtral-8x7b-32768` | Mixtral (misto) |
-
 ### Google Gemini
 | Modelo | Descricao |
 |--------|-----------|
@@ -197,7 +187,6 @@ Cadastro/Login
 | `gemini-1.5-pro` | Mais potente |
 
 > Para obter chaves gratuitas:
-> - **Groq**: https://console.groq.com
 > - **Gemini**: https://aistudio.google.com/apikey
 
 ---
@@ -264,12 +253,12 @@ Todas as rotas exceto cadastro e login requerem header `Authorization: Bearer <t
 Todos os endpoints que utilizam IA aceitam headers para configurar o provedor:
 
 ```
-x-ai-provider: groq | gemini
+x-ai-provider: gemini
 x-ai-api-key: sua_chave
 x-ai-model: id_do_modelo
 ```
 
-Se nao enviados, usa o fallback do `.env` (Groq com `GROQ_API_KEY`).
+Se nao enviados, usa o fallback do `.env`.
 
 ---
 
@@ -289,7 +278,7 @@ MentorIA/
 ├── backend/
 │   ├── src/
 │   │   ├── config/
-│   │   │   └── aiService.js        # Servico unificado de IA (Groq + Gemini)
+│   │   │   └── aiService.js        # Servico de IA (Gemini)
 │   │   ├── controllers/
 │   │   │   ├── authController.js    # Cadastro, login, perfil
 │   │   │   ├── trilhaController.js  # CRUD trilhas + questionario
@@ -360,7 +349,7 @@ MentorIA/
 
 ## Licenca
 
-Projeto academico para fins de estudo.
+Projeto academico desenvolvido como situação de aprendizagem para exemplo dos alunos.
 # mentoria
 # mentoria
 # mentoria
