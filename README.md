@@ -11,7 +11,7 @@ Plataforma educacional de programacao com Inteligencia Artificial. O usuario cri
 | Frontend | React 19, Vite, Tailwind CSS, Framer Motion, React Router v7 |
 | Backend | Express.js, Sequelize ORM, Node.js |
 | Banco | PostgreSQL |
-| IA | Groq SDK (Llama, Mixtral, Gemma) e Google Generative AI (Gemini) |
+| IA | Google Generative AI (Gemini) |
 
 ---
 
