@@ -106,6 +106,8 @@ Link para obter a chave da api: https://aistudio.google.com/api-keys?hl=pt-br
 Inicie o servidor:
 
 ```bash
+instalar o pg vector
+npm install pgvector pg
 # Desenvolvimento (com auto-reload)
 npm run dev
 
