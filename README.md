@@ -59,7 +59,7 @@ Plataforma educacional de programacao com Inteligencia Artificial. O usuario cri
 
 ### 8. Configuracao da IA
 - Utilize Google Gemini como provedor
-- Inserir propria API key (gratuita)
+- Inserir propria API key (gratuita) 
 - Testar conexao antes de salvar
 - Configuracao salva no navegador e enviada em cada requisicao
 
@@ -100,6 +100,7 @@ JWT_SECRET=sua_chave_secreta
 
 # API Key padrao (fallback caso o usuario nao configure a propria)
 API_KEY=sua_chave_gemini_aqui
+Link para obter a chave da api: https://aistudio.google.com/api-keys?hl=pt-br
 ```
 
 Inicie o servidor:
