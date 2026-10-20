@@ -5,7 +5,6 @@ import { getColors } from "../constants/colors";
 import { IoChatbubbleEllipses } from "react-icons/io5";
 import { LuChevronRight } from "react-icons/lu";
 import { chatService } from "../services/chatService";
-import { trilhaService } from "../services/trilhaService";
 import Button from "../components/Button";
 import ButtonBack from "../components/ButtonBack";
 import ConfirmDialog from "../components/ConfirmDialog";
@@ -49,22 +48,12 @@ export default function ChatMentor() {
   const [chat, setChat] = useState([]);
   const [loading, setLoading] = useState(false);
   const [carregandoHistorico, setCarregandoHistorico] = useState(true);
-  const [trilhas, setTrilhas] = useState([]);
-  const [trilhaId, setTrilhaId] = useState("");
   const [confirmarLimpeza, setConfirmarLimpeza] = useState(false);
   const bottomRef = useRef(null);
 
   useEffect(() => {
     const carregar = async () => {
-      const [resChat, resTrilhas] = await Promise.all([
-        chatService.historico(),
-        trilhaService.listar(),
-      ]);
-
-      if (resTrilhas.status === "SUCESSO") {
-        setTrilhas(resTrilhas.trilhas);
-        if (resTrilhas.trilhas.length > 0) setTrilhaId((atual) => atual || String(resTrilhas.trilhas[0].id));
-      }
+      const resChat = await chatService.historico();
 
       if (resChat.status === "SUCESSO") {
         const msgs = (resChat.interacoes || []).flatMap((i) => [
@@ -92,7 +81,7 @@ export default function ChatMentor() {
     setLoading(true);
 
     try {
-      const res = await chatService.perguntar(texto, trilhaId ? Number(trilhaId) : null);
+      const res = await chatService.perguntar(texto);
 
       setChat((prev) => [
         ...prev,
@@ -138,22 +127,7 @@ export default function ChatMentor() {
             )}
           </div>
 
-          <div className="py-3">
-            <select
-              className="mentor-select w-full px-5 font-poppins text-sm outline-none"
-              value={trilhaId}
-              onChange={(e) => setTrilhaId(e.target.value)}
-            >
-              <option value="">Conversa geral (sem trilha)</option>
-              {trilhas.map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.nome} — {t.nvl}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="mt-2 p-6 space-y-5 max-h-[520px] overflow-y-auto rounded-[20px]" style={{ backgroundColor: "#f1f2f6", border: "1px solid #c7c9cf" }}>
+          <div className="mt-5 p-6 space-y-5 max-h-[520px] overflow-y-auto rounded-[20px]" style={{ backgroundColor: "#f1f2f6", border: "1px solid #c7c9cf" }}>
             {carregandoHistorico ? (
               <p className="font-poppins text-sm text-center" style={{ color: colors.grey }}>
                 Carregando...
@@ -161,10 +135,10 @@ export default function ChatMentor() {
             ) : chat.length === 0 ? (
               <div className="text-center space-y-2">
                 <p className="font-poppins text-sm" style={{ color: colors.grey }}>
-                  Escolha uma trilha ou use um dos atalhos abaixo para receber uma orientação prática.
+                  Olá! Sobre o que você gostaria de conversar ou aprender hoje?
                 </p>
                 <p className="font-poppins text-xs" style={{ color: colors.grey }}>
-                  O Mentor IA vai usar o contexto da trilha e do seu historico para responder com mais relevancia.
+                  Quando fizer sentido, o MentorIA usa seu perfil e suas trilhas para personalizar a resposta.
                 </p>
               </div>
             ) : (

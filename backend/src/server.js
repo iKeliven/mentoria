@@ -26,6 +26,9 @@ app.get('/health', async (_req, res) => {
 
 async function start() {
   try {
+    if (process.env.NODE_ENV === 'production' && (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32)) {
+      throw new Error('JWT_SECRET deve ter pelo menos 32 caracteres em produção.');
+    }
     await sequelize.authenticate();
     await sequelize.sync();
     await sequelize.query('ALTER TABLE trilhas ADD COLUMN IF NOT EXISTS nota_avaliacao FLOAT;');

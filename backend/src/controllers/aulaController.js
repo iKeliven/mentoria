@@ -66,7 +66,10 @@ export async function listar(req, res) {
     }
 
     const where = { id_trilha: trilhaIds };
-    if (id_trilha) where.id_trilha = Number(id_trilha);
+    if (id_trilha) {
+      if (!trilhaIds.includes(Number(id_trilha))) return res.status(404).json({ status: 'ERRO', mensagem: 'Trilha nao encontrada' });
+      where.id_trilha = Number(id_trilha);
+    }
 
     const aulas = await Aula.findAll({
       where,

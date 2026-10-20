@@ -165,18 +165,19 @@ export default function AvaliacaoNivel() {
   return (
     <LayoutWrapper>
       <div className="w-full">
-        <div className="mentor-card p-8 min-h-[650px]">
+        <section className="mentor-card p-8 min-h-[650px]">
           <div className="border-b border-[#c7c9cf] pb-5"><ButtonBack label="Avaliação de Nível" fallback="/minhas-trilhas" /></div>
 
-          <p className="font-poppins text-sm mt-4" style={{ color: colors.grey }}>
-            A avaliacao de nivel serve para entender o seu nivel atual de
-            conhecimento e personalizar a sua jornada de aprendizado.
+          <p className="font-poppins text-sm mt-5" style={{ color: colors.blue }}>
+            {searchParams.get("tipo") === "progresso"
+              ? "Responda às questões para verificarmos sua evolução na trilha."
+              : "Responda às questões para entendermos seu nível atual e personalizarmos sua jornada."}
           </p>
 
-          <div className="flex items-center gap-4 mt-6">
-            <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ backgroundColor: colors["dark-white"] }}>
+          <div className="flex items-center gap-3 mt-8">
+            <div className="h-2 flex-1 bg-[#d9d9d9] overflow-hidden">
               <div
-                className="h-full rounded-full transition-all duration-300"
+                className="h-full bg-[#143e78] transition-all"
                 style={{ width: `${progressoPercent}%`, backgroundColor: colors.blue }}
               />
             </div>
@@ -185,58 +186,50 @@ export default function AvaliacaoNivel() {
             </span>
           </div>
 
-          <div className="mt-8">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-poppins-bold text-base" style={{ color: colors.blue }}>
+          <div className="bg-white border border-[#c7c9cf] rounded-[20px] p-7 mt-10">
+            <div className="flex items-start justify-between gap-5 pb-4 border-b border-[#c7c9cf]">
+              <h2 className="font-poppins-bold text-2xl" style={{ color: colors.blue }}>
                 {questao?.enunciado}
-              </h3>
+              </h2>
               <span
-                className="px-3 py-1 rounded-full font-poppins-bold text-xs text-white"
+                className="shrink-0 rounded-full px-5 py-2 text-xs font-poppins-bold text-white"
                 style={{ backgroundColor: colors.blue }}
               >
-                {questao?.nivel}
+                Nível {questao?.nivel || "iniciante"}
               </span>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-3 py-6">
               {(questao?.opcoes || []).map((opcao, idx) => (
                 <label
                   key={idx}
-                  className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors"
+                  className="flex items-center gap-3 cursor-pointer font-poppins text-base"
                   style={{
-                    border: `1px solid ${respostas[perguntaAtual] === idx ? colors.blue : colors["light-grey"]}`,
-                    backgroundColor: respostas[perguntaAtual] === idx ? `${colors.blue}10` : colors.card,
+                    color: colors.blue,
                   }}
                 >
                   <input
-                    type="checkbox"
+                    type="radio"
+                    name={`questao-${perguntaAtual}`}
                     checked={respostas[perguntaAtual] === idx}
                     onChange={() => selecionar(idx)}
-                    className="w-4 h-4 accent-[#0F2A5E]"
+                    className="w-5 h-5 accent-[#143e78]"
                   />
-                  <span className="font-poppins text-sm" style={{ color: colors.blue }}>
-                    {opcao}
-                  </span>
+                  {opcao}
                 </label>
               ))}
             </div>
           </div>
 
-          <div className="flex justify-end gap-4 mt-8 pt-4" style={{ borderTop: `1px solid ${colors.border}` }}>
+          <div className="flex justify-end gap-4 mt-6 pt-6 border-t border-[#c7c9cf]">
             <button
-              className="py-2 px-6 rounded-lg font-poppins-bold text-sm cursor-pointer"
-              style={{
-                border: `1px solid ${colors.blue}`,
-                color: colors.blue,
-                backgroundColor: "transparent",
-              }}
+              className="mentor-secondary cursor-pointer"
               onClick={voltar}
             >
               Voltar
             </button>
             <button
-              className="py-2 px-6 rounded-lg font-poppins-bold text-sm cursor-pointer border-none disabled:opacity-50"
-              style={{ backgroundColor: colors.orange, color: "white" }}
+              className="mentor-primary cursor-pointer disabled:opacity-50"
               onClick={proxima}
               disabled={respostas[perguntaAtual] === undefined || enviando}
             >
@@ -247,7 +240,7 @@ export default function AvaliacaoNivel() {
                   : "Finalizar"}
             </button>
           </div>
-        </div>
+        </section>
       </div>
     </LayoutWrapper>
   );
