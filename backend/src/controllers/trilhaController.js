@@ -88,12 +88,11 @@ export async function selecionar(req, res) {
     const { id_trilha } = req.body;
     const id_aluno = req.usuario.id;
 
-    const trilha = await Trilha.findByPk(id_trilha);
+    const trilha = await Trilha.findOne({ where: { id: id_trilha, id_aluno } });
     if (!trilha) {
       return res.status(404).json({ status: 'ERRO', mensagem: 'Trilha nao encontrada' });
     }
 
-    await trilha.update({ id_aluno });
     return res.json({ status: 'SUCESSO', mensagem: 'Trilha selecionada' });
   } catch (e) {
     console.log(e);
@@ -106,7 +105,7 @@ export async function gerarQuestionario(req, res) {
     const { id } = req.params;
     const aiConfig = extractAIConfig(req);
 
-    const trilha = await Trilha.findByPk(id);
+    const trilha = await Trilha.findOne({ where: { id, id_aluno: req.usuario.id } });
     if (!trilha) {
       return res.status(404).json({ status: 'ERRO', mensagem: 'Trilha nao encontrada' });
     }
@@ -144,7 +143,7 @@ export async function responderQuestionario(req, res) {
       return res.status(400).json({ status: 'ERRO', mensagem: 'Respostas obrigatorias' });
     }
 
-    const trilha = await Trilha.findByPk(id);
+    const trilha = await Trilha.findOne({ where: { id, id_aluno: req.usuario.id } });
     if (!trilha) {
       return res.status(404).json({ status: 'ERRO', mensagem: 'Trilha nao encontrada' });
     }

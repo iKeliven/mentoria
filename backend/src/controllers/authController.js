@@ -44,22 +44,6 @@ export async function login(req, res) {
     }
 
     const emailNormalizado = String(email).trim().toLowerCase();
-    const emailsAdmin = ['admin', 'admin@mentorai.com', 'admin@mentoria.com'];
-
-    if (senha === '12345678' && emailsAdmin.includes(emailNormalizado)) {
-      const token = jwt.sign(
-        { id: 1, nome: 'Administrador', email: 'admin@mentorai.com', perfil: 'admin' },
-        process.env.JWT_SECRET || 'mentorai-secret',
-        { expiresIn: '7d' }
-      );
-
-      return res.json({
-        status: 'SUCESSO',
-        token,
-        dadosDeSessao: { id: 1, nome: 'Administrador', email: 'admin@mentorai.com', perfil: 'admin' },
-      });
-    }
-
     const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(404).json({ status: 'ERRO', tipo: 'NAO_ENCONTRADO' });

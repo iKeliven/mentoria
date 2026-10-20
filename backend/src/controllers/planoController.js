@@ -25,7 +25,7 @@ export async function gerar(req, res) {
     const id_aluno = req.usuario.id;
     const aiConfig = extractAIConfig(req);
 
-    const trilha = await Trilha.findByPk(id_trilha);
+    const trilha = await Trilha.findOne({ where: { id: id_trilha, id_aluno } });
     if (!trilha) {
       return res.status(404).json({ status: 'ERRO', mensagem: 'Trilha nao encontrada' });
     }

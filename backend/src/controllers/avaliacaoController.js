@@ -8,7 +8,7 @@ export async function gerar(req, res) {
     const id_aluno = req.usuario.id;
     const aiConfig = extractAIConfig(req);
 
-    const trilha = await Trilha.findByPk(id_trilha);
+    const trilha = await Trilha.findOne({ where: { id: id_trilha, id_aluno } });
     if (!trilha) {
       return res.status(404).json({ status: 'ERRO', mensagem: 'Trilha nao encontrada' });
     }
@@ -60,7 +60,7 @@ export async function responder(req, res) {
     const { id_avaliacao, respostas } = req.body;
     const id_aluno = req.usuario.id;
 
-    const avaliacao = await Avaliacao.findByPk(id_avaliacao, { include: [{ model: Questao, as: 'Questoes' }] });
+    const avaliacao = await Avaliacao.findOne({ where: { id: id_avaliacao, id_aluno }, include: [{ model: Questao, as: 'Questoes' }] });
     if (!avaliacao) {
       return res.status(404).json({ status: 'ERRO', mensagem: 'Avaliacao nao encontrada' });
     }
